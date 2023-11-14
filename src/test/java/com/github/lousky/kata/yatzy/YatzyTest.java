@@ -1,4 +1,4 @@
-package com.github.lousky;
+package com.github.lousky.kata.yatzy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,9 +13,9 @@ public class YatzyTest {
 
 	@ParameterizedTest
 	@MethodSource("provideRollsAndExpectedScoresForChance")
-    public void chance_scores_sum_of_all_dice(Roll roll, int expectedScore) {
-        assertEquals(expectedScore, Yatzy.chance(roll));
-    }
+	public void chance_scores_sum_of_all_dice(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.chance(roll));
+	}
 	
 	private static Stream<Arguments> provideRollsAndExpectedScoresForChance() {
 	    return Stream.of(

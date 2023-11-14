@@ -1,4 +1,4 @@
-package com.github.lousky;
+package com.github.lousky.kata.yatzy;
 
 import java.util.List;
 
