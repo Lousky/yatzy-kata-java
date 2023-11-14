@@ -2,15 +2,30 @@ package com.github.lousky;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class YatzyTest {
 
-    @Test
-    public void chance_scores_sum_of_all_dice() {
-        assertEquals(15, Yatzy.chance(new Roll(2,3,4,5,1)));
-        assertEquals(16, Yatzy.chance(new Roll(3,3,4,5,1)));
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForChance")
+    public void chance_scores_sum_of_all_dice(Roll roll, int expectedScore) {
+        assertEquals(expectedScore, Yatzy.chance(roll));
     }
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForChance() {
+	    return Stream.of(
+	      Arguments.of(new Roll(2,3,4,5,1), 15),
+	      Arguments.of(new Roll(3,3,4,5,1), 16),
+	      Arguments.of(new Roll(0,0,0,0,0), 0),
+	      Arguments.of(new Roll(1,1,1,1,1), 5),
+	      Arguments.of(new Roll(1,1,1,2,2), 7)
+	    );
+	}
 
     @Test 
     public void yatzy_scores_50() {

@@ -7,10 +7,10 @@ public class Yatzy {
 	 * @param roll the roll containing the 5 dices' value
 	 * @return the score
 	 */
-    public static int chance(Roll roll) {
-        return roll.getDiceValueList().stream().reduce(0, Integer::sum);
-    }
-
+	public static int chance(Roll roll) {
+		return roll.getDiceValueList().stream().reduce(0, Integer::sum);
+	}
+	
     public static int yatzy(int... dice)
     {
         int[] counts = new int[6];
