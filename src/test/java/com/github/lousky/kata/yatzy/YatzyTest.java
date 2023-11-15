@@ -133,12 +133,21 @@ public class YatzyTest {
 		);
 	}
 
-    @Test
-    public void one_pair() {
-        assertEquals(6, Yatzy.score_pair(3,4,3,5,6));
-        assertEquals(10, Yatzy.score_pair(5,3,3,3,5));
-        assertEquals(12, Yatzy.score_pair(5,3,6,6,5));
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForPair")
+    public void pair_scores_highest_pair_sum(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.pair(roll));
     }
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForPair() {
+		return Stream.of(
+				Arguments.of(new Roll(3,4,3,5,6), 6),
+				Arguments.of(new Roll(5,3,3,3,5), 10),
+				Arguments.of(new Roll(5,3,6,6,5), 12),
+				Arguments.of(new Roll(3,1,2,1,5), 2),
+				Arguments.of(new Roll(3,1,2,4,5), 0)
+		);
+	}
 
     @Test
     public void two_Pair() {

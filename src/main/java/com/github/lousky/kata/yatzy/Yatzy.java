@@ -26,7 +26,7 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of the dice that reads the value 1.
-	 * @param roll @link  Roll}
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int ones(Roll roll) {
@@ -35,7 +35,7 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of the dice that reads the value 2.
-	 * @param roll @link  Roll}
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int twos(Roll roll) {
@@ -44,7 +44,7 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of the dice that reads the value 3.
-	 * @param roll @link  Roll}
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int threes(Roll roll) {
@@ -53,7 +53,7 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of the dice that reads the value 4.
-	 * @param roll @link  Roll}
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int fours(Roll roll) {
@@ -62,7 +62,7 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of the dice that reads the value 5.
-	 * @param roll @link  Roll}
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int fives(Roll roll) {
@@ -71,27 +71,28 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of the dice that reads the value 6.
-	 * @param roll @link  Roll}
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int sixes(Roll roll) {
 		return calculateScoreForGivenDiceValue(6, roll);
 	}
+	
+	/**
+	 * Scores the sum of the two highest matching dice.
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int pair(Roll roll) {
+	    int[] diceValueCounts = new int[6]; // 6 because there are 6 possible values on a dice
+	    int countsArrayLength = diceValueCounts.length;
+	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
 
-    public static int score_pair(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] counts = new int[6];
-        counts[d1-1]++;
-        counts[d2-1]++;
-        counts[d3-1]++;
-        counts[d4-1]++;
-        counts[d5-1]++;
-        int at;
-        for (at = 0; at != 6; at++)
-            if (counts[6-at-1] >= 2)
-                return (6-at)*2;
-        return 0;
-    }
+	    for (int i = 0; i != countsArrayLength; i++)
+	        if (diceValueCounts[countsArrayLength - i - 1] >= 2)
+	            return (countsArrayLength - i) * 2;
+	    return 0;
+	}
 
     public static int two_pair(int d1, int d2, int d3, int d4, int d5)
     {
