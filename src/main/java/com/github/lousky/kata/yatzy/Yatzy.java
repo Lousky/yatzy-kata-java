@@ -4,23 +4,25 @@ public class Yatzy {
 	
 	/**
 	 * Scores the sum of all dice.
-	 * @param roll the roll containing the 5 dices' value
+	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int chance(Roll roll) {
 		return roll.getDiceValueList().stream().reduce(0, Integer::sum);
 	}
 	
-    public static int yatzy(int... dice)
-    {
-        int[] counts = new int[6];
-        for (int die : dice)
-            counts[die-1]++;
-        for (int i = 0; i != 6; i++)
-            if (counts[i] == 5)
-                return 50;
-        return 0;
-    }
+	/**
+	 * If all dice have the same number, scores 50, 0 otherwise.
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int yatzy(Roll roll) {
+		if (roll.getDiceValueList().stream().distinct().count() == 1L) {
+			return 50;
+		} else {
+			return 0;
+		}
+	}
 
     public static int ones(int d1, int d2, int d3, int d4, int d5) {
         int sum = 0;
@@ -96,7 +98,7 @@ public class Yatzy {
                 sum = sum + 6;
         return sum;
     }
-
+    
     public static int score_pair(int d1, int d2, int d3, int d4, int d5)
     {
         int[] counts = new int[6];

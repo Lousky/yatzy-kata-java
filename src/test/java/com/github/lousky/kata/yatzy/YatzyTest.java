@@ -19,22 +19,32 @@ public class YatzyTest {
 	
 	private static Stream<Arguments> provideRollsAndExpectedScoresForChance() {
 	    return Stream.of(
-	      Arguments.of(new Roll(2,3,4,5,1), 15),
-	      Arguments.of(new Roll(3,3,4,5,1), 16),
-	      Arguments.of(new Roll(0,0,0,0,0), 0),
-	      Arguments.of(new Roll(1,1,1,1,1), 5),
-	      Arguments.of(new Roll(1,1,1,2,2), 7)
+	    		Arguments.of(new Roll(2,3,4,5,1), 15),
+				Arguments.of(new Roll(3,3,4,5,1), 16),
+				Arguments.of(new Roll(0,0,0,0,0), 0),
+				Arguments.of(new Roll(1,1,1,1,1), 5),
+				Arguments.of(new Roll(1,1,1,2,2), 7)
 	    );
 	}
 
-    @Test 
-    public void yatzy_scores_50() {
-        int expected = 50;
-        int actual = Yatzy.yatzy(4,4,4,4,4);
-        assertEquals(expected, actual);
-        assertEquals(50, Yatzy.yatzy(6,6,6,6,6));
-        assertEquals(0, Yatzy.yatzy(6,6,6,6,3));
-    }
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForYatzi") 
+	public void yatzy_scores_50_if_all_dices_are_the_same(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.yatzy(roll));
+	}
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForYatzi() {
+		return Stream.of(
+				Arguments.of(new Roll(1,1,1,1,1), 50),
+				Arguments.of(new Roll(2,2,2,2,2), 50),
+				Arguments.of(new Roll(3,3,3,3,3), 50),
+				Arguments.of(new Roll(4,4,4,4,4), 50),
+				Arguments.of(new Roll(5,5,5,5,5), 50),
+				Arguments.of(new Roll(6,6,6,6,6), 50),
+				Arguments.of(new Roll(1,5,5,5,5), 0),
+				Arguments.of(new Roll(1,1,1,1,5), 0)
+		);
+	}
 
     @Test 
     public void test_1s() {
