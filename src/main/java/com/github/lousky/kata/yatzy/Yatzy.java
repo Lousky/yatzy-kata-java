@@ -23,82 +23,61 @@ public class Yatzy {
 			return 0;
 		}
 	}
+	
+	/**
+	 * Scores the sum of the dice that reads the value 1.
+	 * @param roll @link  Roll}
+	 * @return the score
+	 */
+	public static int ones(Roll roll) {
+	    return calculateScoreForGivenDiceValue(1, roll);
+	}
+	
+	/**
+	 * Scores the sum of the dice that reads the value 2.
+	 * @param roll @link  Roll}
+	 * @return the score
+	 */
+	public static int twos(Roll roll) {
+	    return calculateScoreForGivenDiceValue(2, roll);
+	}
+	
+	/**
+	 * Scores the sum of the dice that reads the value 3.
+	 * @param roll @link  Roll}
+	 * @return the score
+	 */
+	public static int threes(Roll roll) {
+		return calculateScoreForGivenDiceValue(3, roll);
+	}
+	
+	/**
+	 * Scores the sum of the dice that reads the value 4.
+	 * @param roll @link  Roll}
+	 * @return the score
+	 */
+	public static int fours(Roll roll) {
+		return calculateScoreForGivenDiceValue(4, roll);
+	}
+	
+	/**
+	 * Scores the sum of the dice that reads the value 5.
+	 * @param roll @link  Roll}
+	 * @return the score
+	 */
+	public static int fives(Roll roll) {
+		return calculateScoreForGivenDiceValue(5, roll);
+	}
+	
+	/**
+	 * Scores the sum of the dice that reads the value 6.
+	 * @param roll @link  Roll}
+	 * @return the score
+	 */
+	public static int sixes(Roll roll) {
+		return calculateScoreForGivenDiceValue(6, roll);
+	}
 
-    public static int ones(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 1) sum++;
-        if (d2 == 1) sum++;
-        if (d3 == 1) sum++;
-        if (d4 == 1) sum++;
-        if (d5 == 1) 
-            sum++;
-
-        return sum;
-    }
-
-    public static int twos(int d1, int d2, int d3, int d4, int d5) {
-        int sum = 0;
-        if (d1 == 2) sum += 2;
-        if (d2 == 2) sum += 2;
-        if (d3 == 2) sum += 2;
-        if (d4 == 2) sum += 2;
-        if (d5 == 2) sum += 2;
-        return sum;
-    }
-
-    public static int threes(int d1, int d2, int d3, int d4, int d5) {
-        int s;    
-        s = 0;
-        if (d1 == 3) s += 3;
-        if (d2 == 3) s += 3;
-        if (d3 == 3) s += 3;
-        if (d4 == 3) s += 3;
-        if (d5 == 3) s += 3;
-        return s;
-    }
-
-    protected int[] dice;
-    public Yatzy(int d1, int d2, int d3, int d4, int _5)
-    {
-        dice = new int[5];
-        dice[0] = d1;
-        dice[1] = d2;
-        dice[2] = d3;
-        dice[3] = d4;
-        dice[4] = _5;
-    }
-
-    public int fours()
-    {
-        int sum;    
-        sum = 0;
-        for (int at = 0; at != 5; at++) {
-            if (dice[at] == 4) {
-                sum += 4;
-            }
-        }
-        return sum;
-    }
-
-    public int fives()
-    {
-        int s = 0;
-        int i;
-        for (i = 0; i < dice.length; i++) 
-            if (dice[i] == 5)
-                s = s + 5;
-        return s;
-    }
-
-    public int sixes()
-    {
-        int sum = 0;
-        for (int at = 0; at < dice.length; at++) 
-            if (dice[at] == 6)
-                sum = sum + 6;
-        return sum;
-    }
-    
     public static int score_pair(int d1, int d2, int d3, int d4, int d5)
     {
         int[] counts = new int[6];
@@ -237,7 +216,14 @@ public class Yatzy {
         else
             return 0;
     }
+    
+	private static int calculateScoreForGivenDiceValue(int diceValue, Roll roll) {
+		int diceValueCount = 0;
+		for (int value : roll.getDiceValueList()) {
+			if (value == diceValue) {
+				diceValueCount++;
+			}
+		}
+		return diceValueCount * diceValue;
+	}
 }
-
-
-

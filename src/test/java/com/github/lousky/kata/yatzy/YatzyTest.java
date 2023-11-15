@@ -1,6 +1,5 @@
 package com.github.lousky.kata.yatzy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.stream.Stream;
 
@@ -46,47 +45,93 @@ public class YatzyTest {
 		);
 	}
 
-    @Test 
-    public void test_1s() {
-        assertTrue(Yatzy.ones(1,2,3,4,5) == 1);
-        assertEquals(2, Yatzy.ones(1,2,1,4,5));
-        assertEquals(0, Yatzy.ones(6,2,2,4,5));
-        assertEquals(4, Yatzy.ones(1,2,1,1,1));
-    }
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForOnes") 
+	public void ones_scores_sum_of_all_one(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.ones(roll));
+	}
+    
+	private static Stream<Arguments> provideRollsAndExpectedScoresForOnes() {
+		return Stream.of(
+				Arguments.of(new Roll(1,2,3,4,5), 1),
+				Arguments.of(new Roll(1,2,1,4,5), 2),
+				Arguments.of(new Roll(6,2,2,4,5), 0),
+				Arguments.of(new Roll(1,2,1,1,1), 4)
+		);
+	}
 
-    @Test
-    public void test_2s() {
-        assertEquals(4, Yatzy.twos(1,2,3,2,6));
-        assertEquals(10, Yatzy.twos(2,2,2,2,2));
-    }
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForTwos") 
+	public void twos_scores_sum_of_all_twos(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.twos(roll));
+	}
+    
+	private static Stream<Arguments> provideRollsAndExpectedScoresForTwos() {
+		return Stream.of(
+				Arguments.of(new Roll(1,2,3,2,6), 4),
+				Arguments.of(new Roll(2,2,2,2,2), 10),
+				Arguments.of(new Roll(1,3,4,5,6), 0)
+		);
+	}
 
-    @Test
-    public void test_threes() {
-        assertEquals(6, Yatzy.threes(1,2,3,2,3));
-        assertEquals(12, Yatzy.threes(2,3,3,3,3));
-    }
-
-    @Test
-    public void fours_test() 
-    {
-        assertEquals(12, new Yatzy(4,4,4,5,5).fours());
-        assertEquals(8, new Yatzy(4,4,5,5,5).fours());
-        assertEquals(4, new Yatzy(4,5,5,5,5).fours());
-    }
-
-    @Test
-    public void fives() {
-        assertEquals(10, new Yatzy(4,4,4,5,5).fives());
-        assertEquals(15, new Yatzy(4,4,5,5,5).fives());
-        assertEquals(20, new Yatzy(4,5,5,5,5).fives());
-    }
-
-    @Test
-    public void sixes_test() {
-        assertEquals(0, new Yatzy(4,4,4,5,5).sixes());
-        assertEquals(6, new Yatzy(4,4,6,5,5).sixes());
-        assertEquals(18, new Yatzy(6,5,6,6,5).sixes());
-    }
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForThrees")
+	public void thress_scores_sum_of_all_threes(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.threes(roll));
+	}
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForThrees() {
+		return Stream.of(
+				Arguments.of(new Roll(1,2,3,2,3), 6),
+				Arguments.of(new Roll(2,3,3,3,3), 12),
+				Arguments.of(new Roll(1,2,4,5,6), 0)
+		);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForFours")
+	public void fours_scores_sum_of_all_fours(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.fours(roll));
+	}
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForFours() {
+		return Stream.of(
+				Arguments.of(new Roll(4,4,4,5,5), 12),
+				Arguments.of(new Roll(4,4,5,5,5), 8),
+				Arguments.of(new Roll(4,5,5,5,5), 4),
+				Arguments.of(new Roll(3,5,5,5,5), 0)
+		);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForFives")
+	public void fives_scores_sum_of_all_fives(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.fives(roll));
+	}
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForFives() {
+		return Stream.of(
+				Arguments.of(new Roll(4,4,4,5,5), 10),
+				Arguments.of(new Roll(4,4,5,5,5), 15),
+				Arguments.of(new Roll(4,5,5,5,5), 20),
+				Arguments.of(new Roll(3,1,2,4,6), 0)
+		);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("provideRollsAndExpectedScoresForSixes")
+	public void sixes_scores_sum_of_all_sixes(Roll roll, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.sixes(roll));
+	}
+	
+	private static Stream<Arguments> provideRollsAndExpectedScoresForSixes() {
+		return Stream.of(
+				Arguments.of(new Roll(4,4,4,5,5), 0),
+				Arguments.of(new Roll(4,4,6,5,5), 6),
+				Arguments.of(new Roll(6,5,6,6,5), 18),
+				Arguments.of(new Roll(3,1,2,4,5), 0)
+		);
+	}
 
     @Test
     public void one_pair() {
