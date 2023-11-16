@@ -8,9 +8,9 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int chance(Roll roll) {
-		return roll.getDiceValueList().stream().reduce(0, Integer::sum);
+		return sumAllDicesValues(roll);
 	}
-	
+
 	/**
 	 * If all dice have the same number, scores 50, 0 otherwise.
 	 * @param roll {@link  Roll}
@@ -137,35 +137,22 @@ public class Yatzy {
 	}
 	
 	/**
-	 * If the dice read 1,2,3,4,5, scores 15 (the sum of all the dice)
+	 * If the dice read 1,2,3,4,5, scores 15 (the sum of all the dice).
 	 * @param roll {@link  Roll}
 	 * @return the score
 	 */
 	public static int smallStraight(Roll roll) {
-		if (roll.getDiceValueList().stream().distinct().count() == 5L 
-				&& roll.getDiceValueList().contains(1)) {
-			return 15;
-		}
-		return 0;
+		return calculateStraight(1, roll);
 	}
-
-    public static int largeStraight(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1-1] += 1;
-        tallies[d2-1] += 1;
-        tallies[d3-1] += 1;
-        tallies[d4-1] += 1;
-        tallies[d5-1] += 1;
-        if (tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1
-            && tallies[5] == 1)
-            return 20;
-        return 0;
-    }
+	
+	/**
+	 * If the dice read 2,3,4,5,6, scores 20 (the sum of all the dice).
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int largeStraight(Roll roll) {
+	    return calculateStraight(6, roll);
+	}
 
     public static int fullHouse(int d1, int d2, int d3, int d4, int d5)
     {
@@ -224,5 +211,17 @@ public class Yatzy {
 	        if (diceValueCounts[i] >= occurrence)
 	            return (i + 1) * occurrence;
 	    return 0;
+	}
+	
+	private static int calculateStraight(int straightIdentifier, Roll roll) {
+		if (roll.getDiceValueList().stream().distinct().count() == 5L 
+				&& roll.getDiceValueList().contains(straightIdentifier)) {
+			return sumAllDicesValues(roll);
+		}
+		return 0;
+	}
+	
+	private static Integer sumAllDicesValues(Roll roll) {
+		return roll.getDiceValueList().stream().reduce(0, Integer::sum);
 	}
 }

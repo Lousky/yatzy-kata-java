@@ -130,11 +130,13 @@ public class YatzyTest {
     	assertEquals(expectedScore, Yatzy.smallStraight(buildRollFromArgument(diceValues)));
 	}
 
-    @Test
-    public void largeStraight() {
-        assertEquals(20, Yatzy.largeStraight(6,2,3,4,5));
-        assertEquals(20, Yatzy.largeStraight(2,3,4,5,6));
-        assertEquals(0, Yatzy.largeStraight(1,2,2,4,5));
+    @ParameterizedTest
+    @CsvSource({"'6,2,3,4,5', 20",
+				"'2,3,4,5,6', 20",
+				"'1,2,2,4,5', 0",
+				"'1,2,3,4,5', 0"})
+    public void large_straight_scores_20_if_include_digit_two_to_six(String diceValues, int expectedScore) {
+    	assertEquals(expectedScore, Yatzy.largeStraight(buildRollFromArgument(diceValues)));
     }
 
     @Test
