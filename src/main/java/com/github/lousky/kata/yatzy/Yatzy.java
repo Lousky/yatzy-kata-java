@@ -117,21 +117,23 @@ public class Yatzy {
 	    else
 	        return 0;
 	}
-
-    public static int four_of_a_kind(int _1, int _2, int d3, int d4, int d5)
-    {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[_1-1]++;
-        tallies[_2-1]++;
-        tallies[d3-1]++;
-        tallies[d4-1]++;
-        tallies[d5-1]++;
-        for (int i = 0; i < 6; i++)
-            if (tallies[i] >= 4)
-                return (i+1) * 4;
-        return 0;
-    }
+	
+	/**
+	 * If there are four dice with the same number, scores the sum of these dice
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int fourOfAKind(Roll roll) {
+		int[] diceValueCounts = new int[6];
+		int countsArrayLength = diceValueCounts.length;
+	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
+	    
+	    
+	    for (int i = 0; i < countsArrayLength; i++)
+	        if (diceValueCounts[i] >= 4)
+	            return (i + 1) * 4;
+	    return 0;
+	}
 
     public static int three_of_a_kind(int d1, int d2, int d3, int d4, int d5)
     {
