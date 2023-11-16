@@ -124,31 +124,17 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int fourOfAKind(Roll roll) {
-		int[] diceValueCounts = new int[6];
-		int countsArrayLength = diceValueCounts.length;
-	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
-	    
-	    
-	    for (int i = 0; i < countsArrayLength; i++)
-	        if (diceValueCounts[i] >= 4)
-	            return (i + 1) * 4;
-	    return 0;
+	    return calculateSumOfValuesAppearingWithGivenOccurrence(4, roll);
 	}
-
-    public static int three_of_a_kind(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] t;
-        t = new int[6];
-        t[d1-1]++;
-        t[d2-1]++;
-        t[d3-1]++;
-        t[d4-1]++;
-        t[d5-1]++;
-        for (int i = 0; i < 6; i++)
-            if (t[i] >= 3)
-                return (i+1) * 3;
-        return 0;
-    }
+	
+	/**
+	 * If there are three dice with the same number, scores the sum of these dice.
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int threeOfAKind(Roll roll) {
+	    return calculateSumOfValuesAppearingWithGivenOccurrence(3, roll);
+	}
 
     public static int smallStraight(int d1, int d2, int d3, int d4, int d5)
     {
@@ -231,5 +217,17 @@ public class Yatzy {
 			}
 		}
 		return diceValueCount * diceValue;
+	}
+	
+	private static int calculateSumOfValuesAppearingWithGivenOccurrence(int occurrence, Roll roll) {
+		int[] diceValueCounts = new int[6];
+		int countsArrayLength = diceValueCounts.length;
+	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
+	    
+	    
+	    for (int i = 0; i < countsArrayLength; i++)
+	        if (diceValueCounts[i] >= occurrence)
+	            return (i + 1) * occurrence;
+	    return 0;
 	}
 }

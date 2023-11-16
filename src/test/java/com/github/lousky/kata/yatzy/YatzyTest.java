@@ -102,13 +102,14 @@ public class YatzyTest {
         assertEquals(expectedScore, Yatzy.twoPair(buildRollFromArgument(diceValues)));
     }
 
-    @Test
-    public void three_of_a_kind() 
-    {
-        assertEquals(9, Yatzy.three_of_a_kind(3,3,3,4,5));
-        assertEquals(15, Yatzy.three_of_a_kind(5,3,5,4,5));
-        assertEquals(9, Yatzy.three_of_a_kind(3,3,3,3,5));
-        assertEquals(9, Yatzy.three_of_a_kind(3,3,3,3,3));
+	@ParameterizedTest
+    @CsvSource({"'3,3,3,4,5', 9",
+				"'5,3,5,4,5', 15",
+				"'3,3,3,3,5', 9",
+				"'3,3,3,3,3', 9",
+				"'3,3,1,2,2', 0"})
+    public void three_of_a_kind_scores_sum_of_three_same_value(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.threeOfAKind(buildRollFromArgument(diceValues)));
     }
 
     @ParameterizedTest
