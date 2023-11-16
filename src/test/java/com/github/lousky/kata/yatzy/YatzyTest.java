@@ -1,11 +1,13 @@
 package com.github.lousky.kata.yatzy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class YatzyTest {
@@ -149,10 +151,12 @@ public class YatzyTest {
 		);
 	}
 
-    @Test
-    public void two_Pair() {
-        assertEquals(16, Yatzy.two_pair(3,3,5,4,5));
-        assertEquals(16, Yatzy.two_pair(3,3,5,5,5));
+	@ParameterizedTest
+	@CsvSource({"'3,3,5,4,5', 16",
+				"'3,3,5,5,5', 16",
+				"'2,2,1,2,3', 0"})
+    public void two_pair_scores_two_pair_sum(String diceValues, int expectedScore) {
+        assertEquals(expectedScore, Yatzy.twoPair(buildRollFromArgument(diceValues)));
     }
 
     @Test
@@ -189,4 +193,16 @@ public class YatzyTest {
         assertEquals(18, Yatzy.fullHouse(6,2,2,2,6));
         assertEquals(0, Yatzy.fullHouse(2,3,4,5,6));
     }
+    
+	private Roll buildRollFromArgument(String diceValues) {
+		int[] diceValuesArray = Arrays.asList(diceValues.split(","))
+	    	.stream()
+	    	.mapToInt(value -> Integer.parseInt(value))
+	    	.toArray();
+		return new Roll(diceValuesArray[0],
+				 		diceValuesArray[1],
+						diceValuesArray[2],
+						diceValuesArray[3],
+						diceValuesArray[4]);
+	}
 }
