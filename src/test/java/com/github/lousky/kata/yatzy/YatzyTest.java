@@ -2,155 +2,98 @@ package com.github.lousky.kata.yatzy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class YatzyTest {
 
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForChance")
-	public void chance_scores_sum_of_all_dice(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.chance(roll));
+	@CsvSource({"'2,3,4,5,1', 15",
+				"'3,3,4,5,1', 16",
+				"'0,0,0,0,0', 0",
+				"'1,1,1,1,1', 5",
+				"'1,1,1,2,2', 7"})
+	public void chance_scores_sum_of_all_dice(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.chance(buildRollFromArgument(diceValues)));
 	}
 	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForChance() {
-	    return Stream.of(
-	    		Arguments.of(new Roll(2,3,4,5,1), 15),
-				Arguments.of(new Roll(3,3,4,5,1), 16),
-				Arguments.of(new Roll(0,0,0,0,0), 0),
-				Arguments.of(new Roll(1,1,1,1,1), 5),
-				Arguments.of(new Roll(1,1,1,2,2), 7)
-	    );
-	}
-
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForYatzi") 
-	public void yatzy_scores_50_if_all_dices_are_the_same(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.yatzy(roll));
+	@CsvSource({"'1,1,1,1,1', 50",
+				"'2,2,2,2,2', 50",
+				"'3,3,3,3,3', 50",
+				"'4,4,4,4,4', 50",
+				"'5,5,5,5,5', 50",
+				"'6,6,6,6,6', 50",
+				"'1,5,5,5,5', 0",
+				"'1,1,1,1,5', 0"})
+	public void yatzy_scores_50_if_all_dices_are_the_same(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.yatzy(buildRollFromArgument(diceValues)));
 	}
 	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForYatzi() {
-		return Stream.of(
-				Arguments.of(new Roll(1,1,1,1,1), 50),
-				Arguments.of(new Roll(2,2,2,2,2), 50),
-				Arguments.of(new Roll(3,3,3,3,3), 50),
-				Arguments.of(new Roll(4,4,4,4,4), 50),
-				Arguments.of(new Roll(5,5,5,5,5), 50),
-				Arguments.of(new Roll(6,6,6,6,6), 50),
-				Arguments.of(new Roll(1,5,5,5,5), 0),
-				Arguments.of(new Roll(1,1,1,1,5), 0)
-		);
-	}
-
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForOnes") 
-	public void ones_scores_sum_of_all_one(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.ones(roll));
+	@CsvSource({"'1,2,3,4,5', 1",
+				"'1,2,1,4,5', 2",
+				"'6,2,2,4,5', 0",
+				"'1,2,1,1,1', 4"})
+	public void ones_scores_sum_of_all_one(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.ones(buildRollFromArgument(diceValues)));
 	}
     
-	private static Stream<Arguments> provideRollsAndExpectedScoresForOnes() {
-		return Stream.of(
-				Arguments.of(new Roll(1,2,3,4,5), 1),
-				Arguments.of(new Roll(1,2,1,4,5), 2),
-				Arguments.of(new Roll(6,2,2,4,5), 0),
-				Arguments.of(new Roll(1,2,1,1,1), 4)
-		);
-	}
-
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForTwos") 
-	public void twos_scores_sum_of_all_twos(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.twos(roll));
+	@CsvSource({"'1,2,3,2,6', 4",
+				"'2,2,2,2,2', 10",
+				"'1,3,4,5,6', 0"})
+	public void twos_scores_sum_of_all_twos(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.twos(buildRollFromArgument(diceValues)));
 	}
     
-	private static Stream<Arguments> provideRollsAndExpectedScoresForTwos() {
-		return Stream.of(
-				Arguments.of(new Roll(1,2,3,2,6), 4),
-				Arguments.of(new Roll(2,2,2,2,2), 10),
-				Arguments.of(new Roll(1,3,4,5,6), 0)
-		);
-	}
-
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForThrees")
-	public void thress_scores_sum_of_all_threes(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.threes(roll));
-	}
-	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForThrees() {
-		return Stream.of(
-				Arguments.of(new Roll(1,2,3,2,3), 6),
-				Arguments.of(new Roll(2,3,3,3,3), 12),
-				Arguments.of(new Roll(1,2,4,5,6), 0)
-		);
+	@CsvSource({"'1,2,3,2,3', 6",
+				"'2,3,3,3,3', 12",
+				"'1,2,4,5,6', 0"})
+	public void threes_scores_sum_of_all_threes(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.threes(buildRollFromArgument(diceValues)));
 	}
 	
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForFours")
-	public void fours_scores_sum_of_all_fours(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.fours(roll));
-	}
-	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForFours() {
-		return Stream.of(
-				Arguments.of(new Roll(4,4,4,5,5), 12),
-				Arguments.of(new Roll(4,4,5,5,5), 8),
-				Arguments.of(new Roll(4,5,5,5,5), 4),
-				Arguments.of(new Roll(3,5,5,5,5), 0)
-		);
+	@CsvSource({"'4,4,4,5,5', 12",
+				"'4,4,5,5,5', 8",
+				"'4,5,5,5,5', 4",
+				"'3,5,5,5,5', 0"})
+	public void fours_scores_sum_of_all_fours(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.fours(buildRollFromArgument(diceValues)));
 	}
 	
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForFives")
-	public void fives_scores_sum_of_all_fives(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.fives(roll));
-	}
-	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForFives() {
-		return Stream.of(
-				Arguments.of(new Roll(4,4,4,5,5), 10),
-				Arguments.of(new Roll(4,4,5,5,5), 15),
-				Arguments.of(new Roll(4,5,5,5,5), 20),
-				Arguments.of(new Roll(3,1,2,4,6), 0)
-		);
+	@CsvSource({"'4,4,4,5,5', 10",
+				"'4,4,5,5,5', 15",
+				"'4,5,5,5,5', 20",
+				"'3,1,2,4,6', 0"})
+	public void fives_scores_sum_of_all_fives(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.fives(buildRollFromArgument(diceValues)));
 	}
 	
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForSixes")
-	public void sixes_scores_sum_of_all_sixes(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.sixes(roll));
+	@CsvSource({"'4,4,4,5,5', 0",
+				"'4,4,6,5,5', 6",
+				"'6,5,6,6,5', 18",
+				"'3,1,2,4,5', 0"})
+	public void sixes_scores_sum_of_all_sixes(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.sixes(buildRollFromArgument(diceValues)));
 	}
 	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForSixes() {
-		return Stream.of(
-				Arguments.of(new Roll(4,4,4,5,5), 0),
-				Arguments.of(new Roll(4,4,6,5,5), 6),
-				Arguments.of(new Roll(6,5,6,6,5), 18),
-				Arguments.of(new Roll(3,1,2,4,5), 0)
-		);
-	}
-
 	@ParameterizedTest
-	@MethodSource("provideRollsAndExpectedScoresForPair")
-    public void pair_scores_highest_pair_sum(Roll roll, int expectedScore) {
-		assertEquals(expectedScore, Yatzy.pair(roll));
+	@CsvSource({"'3,4,3,5,6', 6",
+				"'5,3,3,3,5', 10",
+				"'5,3,6,6,5', 12",
+				"'3,1,2,1,5', 2",
+				"'3,1,2,4,5', 0"})
+    public void pair_scores_highest_pair_sum(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.pair(buildRollFromArgument(diceValues)));
     }
 	
-	private static Stream<Arguments> provideRollsAndExpectedScoresForPair() {
-		return Stream.of(
-				Arguments.of(new Roll(3,4,3,5,6), 6),
-				Arguments.of(new Roll(5,3,3,3,5), 10),
-				Arguments.of(new Roll(5,3,6,6,5), 12),
-				Arguments.of(new Roll(3,1,2,1,5), 2),
-				Arguments.of(new Roll(3,1,2,4,5), 0)
-		);
-	}
-
 	@ParameterizedTest
 	@CsvSource({"'3,3,5,4,5', 16",
 				"'3,3,5,5,5', 16",
