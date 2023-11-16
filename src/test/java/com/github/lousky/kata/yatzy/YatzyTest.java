@@ -120,12 +120,15 @@ public class YatzyTest {
     	assertEquals(expectedScore, Yatzy.fourOfAKind(buildRollFromArgument(diceValues)));
     }
 
-    @Test
-    public void smallStraight() {
-        assertEquals(15, Yatzy.smallStraight(1,2,3,4,5));
-        assertEquals(15, Yatzy.smallStraight(2,3,4,5,1));
-        assertEquals(0, Yatzy.smallStraight(1,2,2,4,5));
-    }
+    @ParameterizedTest
+    @CsvSource({"'1,2,3,4,5', 15",
+				"'2,3,4,5,1', 15",
+				"'3,2,1,5,4', 15",
+				"'1,2,2,4,5', 0",
+				"'2,3,4,5,6', 0"})
+	public void small_straight_scores_15_if_include_digit_one_to_five(String diceValues, int expectedScore) {
+    	assertEquals(expectedScore, Yatzy.smallStraight(buildRollFromArgument(diceValues)));
+	}
 
     @Test
     public void largeStraight() {

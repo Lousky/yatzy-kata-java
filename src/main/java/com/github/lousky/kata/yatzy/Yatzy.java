@@ -135,24 +135,19 @@ public class Yatzy {
 	public static int threeOfAKind(Roll roll) {
 	    return calculateSumOfValuesAppearingWithGivenOccurrence(3, roll);
 	}
-
-    public static int smallStraight(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] tallies;
-        tallies = new int[6];
-        tallies[d1-1] += 1;
-        tallies[d2-1] += 1;
-        tallies[d3-1] += 1;
-        tallies[d4-1] += 1;
-        tallies[d5-1] += 1;
-        if (tallies[0] == 1 &&
-            tallies[1] == 1 &&
-            tallies[2] == 1 &&
-            tallies[3] == 1 &&
-            tallies[4] == 1)
-            return 15;
-        return 0;
-    }
+	
+	/**
+	 * If the dice read 1,2,3,4,5, scores 15 (the sum of all the dice)
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int smallStraight(Roll roll) {
+		if (roll.getDiceValueList().stream().distinct().count() == 5L 
+				&& roll.getDiceValueList().contains(1)) {
+			return 15;
+		}
+		return 0;
+	}
 
     public static int largeStraight(int d1, int d2, int d3, int d4, int d5)
     {
