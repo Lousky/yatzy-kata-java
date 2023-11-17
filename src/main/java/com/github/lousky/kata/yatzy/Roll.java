@@ -20,7 +20,7 @@ public class Roll {
 	}
 	
 	public static Roll createInstance(Integer... diceValues) {
-		if (diceValues.length > NUM_OF_DICES_IN_ROLL) {
+		if (diceValues.length != NUM_OF_DICES_IN_ROLL) {
 			throw new IllegalStateException("A roll can contain only " + NUM_OF_DICES_IN_ROLL + " dices.");
 		}
 		
