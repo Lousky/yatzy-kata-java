@@ -1,5 +1,9 @@
 package com.github.lousky.kata.yatzy;
 
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 public class Yatzy {
 	
 	/**
@@ -84,7 +88,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int pair(Roll roll) {
-	    int[] diceValueCounts = new int[6]; // 6 because there are 6 possible values on a dice
+	    int[] diceValueCounts = new int[6];
 	    int countsArrayLength = diceValueCounts.length;
 	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
 
@@ -153,43 +157,27 @@ public class Yatzy {
 	public static int largeStraight(Roll roll) {
 	    return calculateStraight(6, roll);
 	}
-
-    public static int fullHouse(int d1, int d2, int d3, int d4, int d5)
-    {
-        int[] tallies;
-        boolean _2 = false;
-        int i;
-        int _2_at = 0;
-        boolean _3 = false;
-        int _3_at = 0;
-
-
-
-
-        tallies = new int[6];
-        tallies[d1-1] += 1;
-        tallies[d2-1] += 1;
-        tallies[d3-1] += 1;
-        tallies[d4-1] += 1;
-        tallies[d5-1] += 1;
-
-        for (i = 0; i != 6; i += 1)
-            if (tallies[i] == 2) {
-                _2 = true;
-                _2_at = i+1;
-            }
-
-        for (i = 0; i != 6; i += 1)
-            if (tallies[i] == 3) {
-                _3 = true;
-                _3_at = i+1;
-            }
-
-        if (_2 && _3)
-            return _2_at * 2 + _3_at * 3;
-        else
-            return 0;
-    }
+	
+	/**
+	 * If the dice are two of a kind and three of a kind, scores the sum of all the dice.
+	 * @param roll {@link  Roll}
+	 * @return the score
+	 */
+	public static int fullHouse(Roll roll) {
+		Map<Integer, Long> valueOccurrenceMap = roll.getDiceValueList().stream()
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+		int twoOfAKindScore = 0;
+		int threeOfAKindScore = 0;
+		for (Map.Entry<Integer, Long> entry : valueOccurrenceMap.entrySet()) {
+			if (entry.getValue() == 2) {
+				twoOfAKindScore = 2 * entry.getKey();
+			} else if (entry.getValue() == 3) {
+				threeOfAKindScore = 3 * entry.getKey();
+			}
+		}
+		return twoOfAKindScore == 0 || threeOfAKindScore == 0 ? 0 
+				: twoOfAKindScore + threeOfAKindScore;
+	}
     
 	private static int calculateScoreForGivenDiceValue(int diceValue, Roll roll) {
 		int diceValueCount = 0;
@@ -202,13 +190,12 @@ public class Yatzy {
 	}
 	
 	private static int calculateSumOfValuesAppearingWithGivenOccurrence(int occurrence, Roll roll) {
-		int[] diceValueCounts = new int[6];
-		int countsArrayLength = diceValueCounts.length;
-	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
-	    
+		int[] diceValueOccurrenceArray = new int[6];
+		int countsArrayLength = diceValueOccurrenceArray.length;
+		roll.getDiceValueList().forEach(diceValue -> diceValueOccurrenceArray[diceValue - 1]++);
 	    
 	    for (int i = 0; i < countsArrayLength; i++)
-	        if (diceValueCounts[i] >= occurrence)
+	        if (diceValueOccurrenceArray[i] >= occurrence)
 	            return (i + 1) * occurrence;
 	    return 0;
 	}

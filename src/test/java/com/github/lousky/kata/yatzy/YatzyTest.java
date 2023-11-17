@@ -3,7 +3,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -139,10 +138,15 @@ public class YatzyTest {
     	assertEquals(expectedScore, Yatzy.largeStraight(buildRollFromArgument(diceValues)));
     }
 
-    @Test
-    public void fullHouse() {
-        assertEquals(18, Yatzy.fullHouse(6,2,2,2,6));
-        assertEquals(0, Yatzy.fullHouse(2,3,4,5,6));
+    @ParameterizedTest
+    @CsvSource({"'6,2,2,2,6', 18",
+    			"'1,2,1,2,1', 7",
+				"'2,3,4,5,6', 0",
+				"'2,2,3,4,5', 0",
+				"'3,3,3,4,5', 0",
+				"'3,3,3,3,5', 0"})
+    public void full_house_scores_sum_of_two_of_a_kind_and_three_of_a_kind(String diceValues, int expectedScore) {
+        assertEquals(expectedScore, Yatzy.fullHouse(buildRollFromArgument(diceValues)));
     }
     
 	private Roll buildRollFromArgument(String diceValues) {
