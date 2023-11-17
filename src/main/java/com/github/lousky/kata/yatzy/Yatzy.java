@@ -34,7 +34,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int ones(Roll roll) {
-	    return calculateScoreForGivenDiceValue(1, roll);
+	    return sumAllGivenDiceValue(1, roll);
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int twos(Roll roll) {
-	    return calculateScoreForGivenDiceValue(2, roll);
+	    return sumAllGivenDiceValue(2, roll);
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int threes(Roll roll) {
-		return calculateScoreForGivenDiceValue(3, roll);
+		return sumAllGivenDiceValue(3, roll);
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int fours(Roll roll) {
-		return calculateScoreForGivenDiceValue(4, roll);
+		return sumAllGivenDiceValue(4, roll);
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int fives(Roll roll) {
-		return calculateScoreForGivenDiceValue(5, roll);
+		return sumAllGivenDiceValue(5, roll);
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int sixes(Roll roll) {
-		return calculateScoreForGivenDiceValue(6, roll);
+		return sumAllGivenDiceValue(6, roll);
 	}
 	
 	/**
@@ -88,14 +88,15 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int pair(Roll roll) {
-	    int[] diceValueCounts = new int[6];
-	    int countsArrayLength = diceValueCounts.length;
-	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
-
-	    for (int i = 0; i != countsArrayLength; i++)
-	        if (diceValueCounts[countsArrayLength - i - 1] >= 2)
-	            return (countsArrayLength - i) * 2;
-	    return 0;
+		Map<Integer, Long> valueOccurrenceMap = createValueOccurrenceMap(roll);
+		
+		for (int i = 6; i != 0; i--) {
+			Long valueOccurrence = valueOccurrenceMap.get(i);
+			if (valueOccurrence != null && valueOccurrence == 2) {
+				return i * 2;
+			}
+		}
+		return 0;
 	}
 	
 	/**
@@ -104,19 +105,18 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int twoPair(Roll roll) {
-		int[] diceValueCounts = new int[6];
-		int countsArrayLength = diceValueCounts.length;
-	    roll.getDiceValueList().forEach(diceValue -> diceValueCounts[diceValue - 1]++);
-	    
-	    int numberOfPair = 0;
+		Map<Integer, Long> valueOccurrenceMap = createValueOccurrenceMap(roll);
+		
+		int numberOfPair = 0;
 	    int score = 0;
-	    for (int i = 0; i < countsArrayLength; i++)
-	        if (diceValueCounts[countsArrayLength - i - 1] >= 2) {
-	        	numberOfPair++;
-	            score += (countsArrayLength - i);
-	        }        
-	    
-	    if (numberOfPair == 2)
+		for (Map.Entry<Integer, Long> entry : valueOccurrenceMap.entrySet()) {
+			if (entry.getValue() >= 2) {
+				numberOfPair++;
+				score += entry.getKey();
+			}
+		}
+		
+		if (numberOfPair == 2)
 	        return score * 2;
 	    else
 	        return 0;
@@ -128,7 +128,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int fourOfAKind(Roll roll) {
-	    return calculateSumOfValuesAppearingWithGivenOccurrence(4, roll);
+	    return sumValuesWithGivenOccurrence(4, roll);
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int threeOfAKind(Roll roll) {
-	    return calculateSumOfValuesAppearingWithGivenOccurrence(3, roll);
+	    return sumValuesWithGivenOccurrence(3, roll);
 	}
 	
 	/**
@@ -164,10 +164,11 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int fullHouse(Roll roll) {
-		Map<Integer, Long> valueOccurrenceMap = roll.getDiceValueList().stream()
-				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+		Map<Integer, Long> valueOccurrenceMap = createValueOccurrenceMap(roll);
+		
 		int twoOfAKindScore = 0;
 		int threeOfAKindScore = 0;
+		
 		for (Map.Entry<Integer, Long> entry : valueOccurrenceMap.entrySet()) {
 			if (entry.getValue() == 2) {
 				twoOfAKindScore = 2 * entry.getKey();
@@ -179,25 +180,26 @@ public class Yatzy {
 				: twoOfAKindScore + threeOfAKindScore;
 	}
     
-	private static int calculateScoreForGivenDiceValue(int diceValue, Roll roll) {
-		int diceValueCount = 0;
-		for (int value : roll.getDiceValueList()) {
-			if (value == diceValue) {
-				diceValueCount++;
-			}
-		}
-		return diceValueCount * diceValue;
+	private static int sumAllGivenDiceValue(int diceValue, Roll roll) {
+		return roll.getDiceValueList().stream()
+				.filter(value -> value == diceValue)
+				.reduce(0, Integer::sum);
 	}
 	
-	private static int calculateSumOfValuesAppearingWithGivenOccurrence(int occurrence, Roll roll) {
-		int[] diceValueOccurrenceArray = new int[6];
-		int countsArrayLength = diceValueOccurrenceArray.length;
-		roll.getDiceValueList().forEach(diceValue -> diceValueOccurrenceArray[diceValue - 1]++);
-	    
-	    for (int i = 0; i < countsArrayLength; i++)
-	        if (diceValueOccurrenceArray[i] >= occurrence)
-	            return (i + 1) * occurrence;
-	    return 0;
+	private static int sumValuesWithGivenOccurrence(int occurrence, Roll roll) {
+		Map<Integer, Long> valueOccurrenceMap = createValueOccurrenceMap(roll);
+		
+		for (Map.Entry<Integer, Long> entry : valueOccurrenceMap.entrySet()) {
+			if (entry.getValue() >= occurrence) {
+				return entry.getKey() * occurrence;
+			}
+		}
+		return 0;
+	}
+	
+	private static Map<Integer, Long> createValueOccurrenceMap(Roll roll) {
+		return roll.getDiceValueList().stream()
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 	}
 	
 	private static int calculateStraight(int straightIdentifier, Roll roll) {
