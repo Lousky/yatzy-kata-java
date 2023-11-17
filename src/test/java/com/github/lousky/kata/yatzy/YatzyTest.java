@@ -89,65 +89,65 @@ public class YatzyTest {
 				"'5,3,6,6,5', 12",
 				"'3,1,2,1,5', 2",
 				"'3,1,2,4,5', 0"})
-    public void pair_scores_highest_pair_sum(String diceValues, int expectedScore) {
+	public void pair_scores_highest_pair_sum(String diceValues, int expectedScore) {
 		assertEquals(expectedScore, Yatzy.pair(buildRollFromArgument(diceValues)));
-    }
+	}
 	
 	@ParameterizedTest
 	@CsvSource({"'3,3,5,4,5', 16",
 				"'3,3,5,5,5', 16",
 				"'2,2,1,2,3', 0"})
-    public void two_pair_scores_two_pair_sum(String diceValues, int expectedScore) {
-        assertEquals(expectedScore, Yatzy.twoPair(buildRollFromArgument(diceValues)));
-    }
+	public void two_pair_scores_two_pair_sum(String diceValues, int expectedScore) {
+	    assertEquals(expectedScore, Yatzy.twoPair(buildRollFromArgument(diceValues)));
+	}
 
 	@ParameterizedTest
-    @CsvSource({"'3,3,3,4,5', 9",
+	@CsvSource({"'3,3,3,4,5', 9",
 				"'5,3,5,4,5', 15",
 				"'3,3,3,3,5', 9",
 				"'3,3,3,3,3', 9",
 				"'3,3,1,2,2', 0"})
-    public void three_of_a_kind_scores_sum_of_three_same_value(String diceValues, int expectedScore) {
+	public void three_of_a_kind_scores_sum_of_three_same_value(String diceValues, int expectedScore) {
 		assertEquals(expectedScore, Yatzy.threeOfAKind(buildRollFromArgument(diceValues)));
-    }
+	}
 
-    @ParameterizedTest
-    @CsvSource({"'3,3,3,3,5', 12",
+	@ParameterizedTest
+	@CsvSource({"'3,3,3,3,5', 12",
 				"'5,5,5,4,5', 20",
 				"'2,2,2,2,2', 8"})
-    public void four_of_a_kind_scores_sum_of_four_same_value(String diceValues, int expectedScore) {
-    	assertEquals(expectedScore, Yatzy.fourOfAKind(buildRollFromArgument(diceValues)));
-    }
+	public void four_of_a_kind_scores_sum_of_four_same_value(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.fourOfAKind(buildRollFromArgument(diceValues)));
+	}
 
-    @ParameterizedTest
-    @CsvSource({"'1,2,3,4,5', 15",
+	@ParameterizedTest
+	@CsvSource({"'1,2,3,4,5', 15",
 				"'2,3,4,5,1', 15",
 				"'3,2,1,5,4', 15",
 				"'1,2,2,4,5', 0",
 				"'2,3,4,5,6', 0"})
 	public void small_straight_scores_15_if_include_digit_one_to_five(String diceValues, int expectedScore) {
-    	assertEquals(expectedScore, Yatzy.smallStraight(buildRollFromArgument(diceValues)));
+		assertEquals(expectedScore, Yatzy.smallStraight(buildRollFromArgument(diceValues)));
 	}
 
-    @ParameterizedTest
-    @CsvSource({"'6,2,3,4,5', 20",
+	@ParameterizedTest
+	@CsvSource({"'6,2,3,4,5', 20",
 				"'2,3,4,5,6', 20",
 				"'1,2,2,4,5', 0",
 				"'1,2,3,4,5', 0"})
-    public void large_straight_scores_20_if_include_digit_two_to_six(String diceValues, int expectedScore) {
-    	assertEquals(expectedScore, Yatzy.largeStraight(buildRollFromArgument(diceValues)));
-    }
+	public void large_straight_scores_20_if_include_digit_two_to_six(String diceValues, int expectedScore) {
+		assertEquals(expectedScore, Yatzy.largeStraight(buildRollFromArgument(diceValues)));
+	}
 
-    @ParameterizedTest
-    @CsvSource({"'6,2,2,2,6', 18",
-    			"'1,2,1,2,1', 7",
+	@ParameterizedTest
+	@CsvSource({"'6,2,2,2,6', 18",
+				"'1,2,1,2,1', 7",
 				"'2,3,4,5,6', 0",
 				"'2,2,3,4,5', 0",
 				"'3,3,3,4,5', 0",
 				"'3,3,3,3,5', 0"})
-    public void full_house_scores_sum_of_two_of_a_kind_and_three_of_a_kind(String diceValues, int expectedScore) {
-        assertEquals(expectedScore, Yatzy.fullHouse(buildRollFromArgument(diceValues)));
-    }
+	public void full_house_scores_sum_of_two_of_a_kind_and_three_of_a_kind(String diceValues, int expectedScore) {
+	    assertEquals(expectedScore, Yatzy.fullHouse(buildRollFromArgument(diceValues)));
+	}
     
 	private Roll buildRollFromArgument(String diceValues) {
 		int[] diceValuesArray = Arrays.asList(diceValues.split(","))
