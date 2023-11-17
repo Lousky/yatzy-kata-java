@@ -11,7 +11,6 @@ public class YatzyTest {
 	@ParameterizedTest
 	@CsvSource({"'2,3,4,5,1', 15",
 				"'3,3,4,5,1', 16",
-				"'0,0,0,0,0', 0",
 				"'1,1,1,1,1', 5",
 				"'1,1,1,2,2', 7"})
 	public void chance_scores_sum_of_all_dice(String diceValues, int expectedScore) {
@@ -154,10 +153,10 @@ public class YatzyTest {
 	    	.stream()
 	    	.mapToInt(value -> Integer.parseInt(value))
 	    	.toArray();
-		return new Roll(diceValuesArray[0],
-				 		diceValuesArray[1],
-						diceValuesArray[2],
-						diceValuesArray[3],
-						diceValuesArray[4]);
+		return Roll.createInstance(diceValuesArray[0],
+							 	   diceValuesArray[1],
+								   diceValuesArray[2],
+								   diceValuesArray[3],
+								   diceValuesArray[4]);
 	}
 }

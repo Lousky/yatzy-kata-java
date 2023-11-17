@@ -90,7 +90,7 @@ public class Yatzy {
 	public static int pair(Roll roll) {
 		Map<Integer, Long> valueOccurrenceMap = createValueOccurrenceMap(roll);
 		
-		for (int i = 6; i != 0; i--) {
+		for (int i = Roll.MAX_DICE_VALUE; i != 0; i--) {
 			Long valueOccurrence = valueOccurrenceMap.get(i);
 			if (valueOccurrence != null && valueOccurrence == 2) {
 				return i * 2;
@@ -203,7 +203,7 @@ public class Yatzy {
 	}
 	
 	private static int calculateStraight(int straightIdentifier, Roll roll) {
-		if (roll.getDiceValueList().stream().distinct().count() == 5L 
+		if (roll.getDiceValueList().stream().distinct().count() == Roll.NUM_OF_DICES_IN_ROLL 
 				&& roll.getDiceValueList().contains(straightIdentifier)) {
 			return sumAllDicesValues(roll);
 		}
