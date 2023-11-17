@@ -34,7 +34,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int ones(Roll roll) {
-	    return sumAllGivenDiceValue(1, roll);
+		return sumAllGivenDiceValue(1, roll);
 	}
 	
 	/**
@@ -43,7 +43,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int twos(Roll roll) {
-	    return sumAllGivenDiceValue(2, roll);
+		return sumAllGivenDiceValue(2, roll);
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class Yatzy {
 		Map<Integer, Long> valueOccurrenceMap = createValueOccurrenceMap(roll);
 		
 		int numberOfPair = 0;
-	    int score = 0;
+		int score = 0;
 		for (Map.Entry<Integer, Long> entry : valueOccurrenceMap.entrySet()) {
 			if (entry.getValue() >= 2) {
 				numberOfPair++;
@@ -117,9 +117,9 @@ public class Yatzy {
 		}
 		
 		if (numberOfPair == 2)
-	        return score * 2;
-	    else
-	        return 0;
+		    return score * 2;
+		else
+		    return 0;
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int fourOfAKind(Roll roll) {
-	    return sumValuesWithGivenOccurrence(4, roll);
+		return sumValuesWithGivenOccurrence(4, roll);
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int threeOfAKind(Roll roll) {
-	    return sumValuesWithGivenOccurrence(3, roll);
+		return sumValuesWithGivenOccurrence(3, roll);
 	}
 	
 	/**
@@ -155,7 +155,7 @@ public class Yatzy {
 	 * @return the score
 	 */
 	public static int largeStraight(Roll roll) {
-	    return calculateStraight(6, roll);
+		return calculateStraight(6, roll);
 	}
 	
 	/**

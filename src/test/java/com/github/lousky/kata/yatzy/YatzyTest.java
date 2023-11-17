@@ -99,7 +99,7 @@ public class YatzyTest {
 				"'3,3,5,5,5', 16",
 				"'2,2,1,2,3', 0"})
 	public void whenTwoPairThenScoresTwoPairsSum(String diceValues, int expectedScore) {
-	    assertEquals(expectedScore, Yatzy.twoPair(buildRollFromArgument(diceValues)));
+		assertEquals(expectedScore, Yatzy.twoPair(buildRollFromArgument(diceValues)));
 	}
 
 	@ParameterizedTest
@@ -147,7 +147,7 @@ public class YatzyTest {
 				"'3,3,3,4,5', 0",
 				"'3,3,3,3,5', 0"})
 	public void whenFullHouseThenScoresSumOfTwoOfAKindAndThreeOfAKind(String diceValues, int expectedScore) {
-	    assertEquals(expectedScore, Yatzy.fullHouse(buildRollFromArgument(diceValues)));
+		assertEquals(expectedScore, Yatzy.fullHouse(buildRollFromArgument(diceValues)));
 	}
 	
 	@Test
@@ -167,9 +167,9 @@ public class YatzyTest {
     
 	private Roll buildRollFromArgument(String diceValues) {
 		int[] diceValuesArray = Arrays.asList(diceValues.split(","))
-	    	.stream()
-	    	.mapToInt(value -> Integer.parseInt(value))
-	    	.toArray();
+			.stream()
+			.mapToInt(value -> Integer.parseInt(value))
+			.toArray();
 		return Roll.createInstance(diceValuesArray[0],
 							 	   diceValuesArray[1],
 								   diceValuesArray[2],
