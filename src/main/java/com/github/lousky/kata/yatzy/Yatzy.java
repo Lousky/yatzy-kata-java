@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Class containing all the Yatzy game scoring methods.
+ */
 public class Yatzy {
 	
 	/**
