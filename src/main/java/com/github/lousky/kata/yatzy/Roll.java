@@ -19,6 +19,11 @@ public class Roll {
 		this.diceValueList = List.of(diceValues);
 	}
 	
+	/**
+	 * Creates an instance of Roll with the allowed number of dices and, for each dice, a valid value.
+	 * @param diceValues the dice values
+	 * @return a new instance of {@link Roll}
+	 */
 	public static Roll createInstance(Integer... diceValues) {
 		if (diceValues.length != NUM_OF_DICES_IN_ROLL) {
 			throw new IllegalStateException("A roll can contain only " + NUM_OF_DICES_IN_ROLL + " dices.");
